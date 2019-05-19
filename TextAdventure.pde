@@ -5,15 +5,13 @@
  * J Karstin Neill    05.16.2019
  */
 
+UI ui;
+
 void setup() {
-  size(800, 800);
+  size(1280, 720);
+  ui = new UI();
 }
 
 void draw() {
-  background(0);
-  
-  PFont courierNew = createFont("CourierNew.ttf", 32);
-  fill(0, 255, 255);
-  textFont(courierNew);
-  text("This is some text", 100, 100);
+  ui.print(0);
 }
