@@ -6,12 +6,21 @@
  */
 
 Screen screen;
+UI ui;
+int i;
 
 void setup() {
   size(1280, 720);
-  screen = new Screen(5);
+  screen = new Screen(new Coord(), new Coord(width, height-44), 27);
+  ui = new UI(new Coord(0, height-44), new Coord(width, 44), 1);
+  i = 0;
+  screen.setColorMode(HSB);
 }
 
 void draw() {
-  screen.print(0);
+  if (i > 255) i = 0;
+  else i++;
+  screen.setTextColor(i, 255, 255);
+  screen.print(i);
+  ui.print("current");
 }

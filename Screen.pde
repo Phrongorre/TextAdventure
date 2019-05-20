@@ -6,20 +6,22 @@
  */
 
 public class Screen {
-  private Coord tlCorner;
-  private Coord size;
-  private color bColor;
-  private color tColor;
-  private PFont tFont;
-  private int edgePadding;
-  private int lineHeight;
-  private int maxSavedLines;
-  private int savedLines;
-  private String[] lines;
+  protected Coord tlCorner;
+  protected Coord size;
+  protected color bColor;
+  protected color tColor;
+  protected int colorMode;
+  protected PFont tFont;
+  protected int edgePadding;
+  protected int lineHeight;
+  protected int maxSavedLines;
+  protected int savedLines;
+  protected String[] lines;
   
   public Screen() {
-    this.setBackgroundColor(#000000);
-    this.setTextColor(#00FFFF);
+    this.setColorMode(RGB);
+    this.setBackgroundColor(0, 0, 0);
+    this.setTextColor(0, 255, 255);
     this.setFont("CourierNew.ttf", 24);
     this.edgePadding = 10;
     this.lineHeight = 24;
@@ -30,25 +32,32 @@ public class Screen {
     this.lines = new String[this.maxSavedLines];
   }
   
-  public Screen(int max) {
-    this.setBackgroundColor(#000000);
-    this.setTextColor(#00FFFF);
+  public Screen(Coord tl, Coord s, int max) {
+    this.setColorMode(RGB);
+    this.setBackgroundColor(0, 0, 0);
+    this.setTextColor(0, 255, 255);
     this.setFont("CourierNew.ttf", 24);
     this.edgePadding = 10;
     this.lineHeight = 24;
     this.maxSavedLines = max;
-    this.tlCorner = new Coord(0, height-2*this.edgePadding-this.lineHeight*this.maxSavedLines);
-    this.size = new Coord(width, 2*this.edgePadding+this.lineHeight*this.maxSavedLines);
+    this.tlCorner = tl;
+    this.size = s;
     this.savedLines = 0;
     this.lines = new String[this.maxSavedLines];
   }
   
-  public void setBackgroundColor(color b) {
-    this.bColor = b;
+  public void setBackgroundColor(float a, float b, float c) {
+    colorMode(this.colorMode);
+    this.bColor = color(a, b, c);
   }
   
-  public void setTextColor(color t) {
-    this.tColor = t;
+  public void setTextColor(float a, float b, float c) {
+    colorMode(this.colorMode);
+    this.tColor = color(a, b, c);
+  }
+  
+  public void setColorMode(int mode) {
+    this.colorMode = mode;
   }
   
   public void setFont(String path, int s) {
@@ -73,8 +82,12 @@ public class Screen {
   
   public void print(String message) {
     this.addLine(message);
+    noStroke();
     fill(this.bColor);
     rect(this.tlCorner.x(), this.tlCorner.y(), this.size.x(), this.size.y());
+    stroke(this.tColor);
+    noFill();
+    rect(this.tlCorner.x()+this.edgePadding/2, this.tlCorner.y()+this.edgePadding/2, this.size.x()-this.edgePadding, this.size.y()-this.edgePadding);
     fill(this.tColor);
     textFont(this.tFont);
     for (int i=0; i < this.savedLines; i++)
@@ -85,7 +98,7 @@ public class Screen {
     this.print(Integer.toString(value));
   }
   
-  private void addLine(String l) {
+  protected void addLine(String l) {
     if (this.savedLines < this.maxSavedLines) this.savedLines++;
     for (int i=this.savedLines-1; i > 0; i--)
       this.lines[i] = this.lines[i-1];
