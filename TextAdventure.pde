@@ -5,13 +5,13 @@
  * J Karstin Neill    05.16.2019
  */
 
-UI ui;
+Screen screen;
 
 void setup() {
   size(1280, 720);
-  ui = new UI();
+  screen = new Screen(5);
 }
 
 void draw() {
-  ui.print(0);
+  screen.print(0);
 }
