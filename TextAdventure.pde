@@ -10,8 +10,8 @@ UI ui;
 int i;
 
 void setup() {
-  size(1280, 720);
-  screen = new Screen(new Coord(), new Coord(width, height-44), 27);
+  size(800, 600);
+  screen = new Screen(new Coord(), new Coord(width, height-44), 22);
   ui = new UI(new Coord(0, height-44), new Coord(width, 44), 1);
   i = 0;
   screen.setColorMode(HSB);
